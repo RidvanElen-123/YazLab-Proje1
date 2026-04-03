@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  redis-auth:
+    image: redis:alpine
+    container_name: redis-auth
+    ports:
+      - "6379:6379"
+    networks:
+      - yazlab_network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    networks:
+      - yazlab_network
+
+networks:
+  yazlab_network:
+    driver: bridge
