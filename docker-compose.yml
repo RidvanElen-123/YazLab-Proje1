@@ -6,24 +6,35 @@ services:
     build: ./dispatcher-service
     container_name: dispatcher
     ports:
-      - "8000:8000"  # Sadece bu port dışarıdan erişilebilir
+      - "8000:8000"
     depends_on:
       - redis-auth
     networks:
       - yazlab_network
 
-  # 2. Mikroservis (Dışa Kapalı, Sadece İç Ağda)
+  # 2. User Service (İç Ağda)
   user-service:
     build: ./user-service
     container_name: user-service
     expose:
-      - "8001" # ports yerine expose kullanıyoruz ki dışarıdan erişilemesin (Ağ İzolasyonu)
+      - "8001" 
     depends_on:
       - mongodb
     networks:
       - yazlab_network
 
-  # 3. Veri Tabanları (Dışa Kapalı)
+  # 3. Post Service (İç Ağda - YENİ EKLENEN)
+  post-service:
+    build: ./post-service
+    container_name: post-service
+    expose:
+      - "8002"
+    depends_on:
+      - mongodb
+    networks:
+      - yazlab_network
+
+  # 4. Veri Tabanları (İç Ağda)
   redis-auth:
     image: redis:alpine
     container_name: redis-auth
