@@ -1,6 +1,6 @@
 
 services:
-  # 1. API Gateway (Dış Dünyaya Açık TEK Kapı)
+
   dispatcher-service:
     build: ./dispatcher-service
     container_name: dispatcher
@@ -11,7 +11,7 @@ services:
     networks:
       - yazlab_network
 
-  # 2. Auth Service (Yeni Eklenen Bağımsız Ünite)
+ 
   auth-service:
     build: ./auth-service
     container_name: auth-service
@@ -22,7 +22,7 @@ services:
     networks:
       - yazlab_network
 
-  # 3. User Service (İç Ağda)
+ 
   user-service:
     build: ./user-service
     container_name: user-service
@@ -33,7 +33,7 @@ services:
     networks:
       - yazlab_network
 
-  # 4. Post Service (İç Ağda)
+ 
   post-service:
     build: ./post-service
     container_name: post-service
@@ -44,7 +44,6 @@ services:
     networks:
       - yazlab_network
 
-  # VERİ TABANLARI (Tam İzolasyon Sağlandı)
   redis-dispatcher:
     image: redis:alpine
     container_name: redis-dispatcher
