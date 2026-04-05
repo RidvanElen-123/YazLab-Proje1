@@ -10,7 +10,7 @@ class TestDispatcherAPI:
     
     @classmethod
     def setup_class(cls):
-        # Test istemcisi sınıf başlatıldığında bir kez oluşturulur
+        
         cls.client = TestClient(app)
 
     def test_health_check(self):
@@ -34,5 +34,5 @@ class TestDispatcherAPI:
         """RMM standartlarına uygun POST işlemlerinde de yetki kontrolü yapılmalıdır."""
         payload = {"title": "Yeni Gönderi Testi", "content": "TDD Test"}
         response = self.client.post("/api/posts/", json=payload)
-        # Token olmadığı için 401 dönmesini bekliyoruz
+       
         assert response.status_code == 401

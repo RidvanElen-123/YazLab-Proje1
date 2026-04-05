@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 
-# Tüm trafik loglanmalıdır kuralı
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("UserService")
 
@@ -24,13 +24,13 @@ class UserServiceApp:
         self._setup_routes()
 
     def _setup_db(self):
-        # docker-compose.yml içindeki bağımsız mongo-user servisine bağlanır
+        
         self.client = AsyncIOMotorClient("mongodb://mongo-user:27017")
         self.db = self.client.user_database
         self.collection = self.db.users
 
     def _setup_routes(self):
-        # RMM Seviye 2 standartlarına uygun rotalar (GET, POST, PUT, DELETE)
+        
         self.app.add_api_route("/users/", self.create_user, methods=["POST"], status_code=201)
         self.app.add_api_route("/users/{user_id}", self.get_user, methods=["GET"])
         self.app.add_api_route("/users/{user_id}", self.update_user, methods=["PUT"])
@@ -83,6 +83,6 @@ class UserServiceApp:
             
         raise HTTPException(status_code=404, detail="Kullanıcı bulunamadı")
 
-# Uygulamanın ayağa kalkması için sınıf örneklendirilir
+
 user_service = UserServiceApp()
 app = user_service.app

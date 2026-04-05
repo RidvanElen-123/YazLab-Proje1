@@ -2,7 +2,7 @@ from locust import HttpUser, task, between
 import random
 
 class YazLabLoadTest(HttpUser):
-    # Her istek arasında 1-3 saniye bekleme (Gerçekçi kullanıcı davranışı)
+    
     wait_time = between(1, 3)
 
     def on_start(self):

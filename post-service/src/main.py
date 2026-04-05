@@ -24,7 +24,7 @@ class PostServiceApp:
         self._setup_routes()
 
     def _setup_db(self):
-        # docker-compose.yml içindeki bağımsız mongo-post servisine bağlanır
+        
         self.client = AsyncIOMotorClient("mongodb://mongo-post:27017")
         self.db = self.client.post_database
         self.collection = self.db.posts

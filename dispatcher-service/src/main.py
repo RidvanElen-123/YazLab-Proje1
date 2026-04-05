@@ -1,5 +1,5 @@
 ﻿from fastapi import FastAPI, Request, HTTPException
-# from .auth_validator import AuthValidator # Token doğrulama işlemi için ayrı bir sınıf olmalı
+
 from .proxy import ServiceProxy
 
 class DispatcherApp:
@@ -10,7 +10,7 @@ class DispatcherApp:
     def __init__(self):
         self.app = FastAPI(title="YazLab Dispatcher API Gateway")
         self.proxy = ServiceProxy()
-        # self.auth_validator = AuthValidator() 
+        
         self._setup_routes()
 
     def _setup_routes(self):
@@ -26,7 +26,7 @@ class DispatcherApp:
         """
         Gelen istekleri doğrular ve ilgili mikroservise proxy'ler.
         """
-        # 1. Rota ve Servis Eşleştirme (Bağımsız Auth servisi eklendi)
+        
         service_map = {
             "users": ("user-service", 8001), 
             "posts": ("post-service", 8002),
@@ -38,7 +38,7 @@ class DispatcherApp:
 
         service_name, port = service_map[service]
 
-        # 2. Yetkilendirme Kontrolü (Auth servisine giden login vb. istekler hariç)
+        
         if service != "auth":
             auth_header = request.headers.get("Authorization")
             if not auth_header or not auth_header.startswith("Bearer "):
@@ -47,18 +47,17 @@ class DispatcherApp:
             token = auth_header.split(" ")[1]
             
             # TODO: Token doğrulama OOP mantığıyla AuthValidator sınıfı üzerinden yapılmalı
-            # if not self.auth_validator.is_valid(token):
-            #     raise HTTPException(status_code=401, detail="Geçersiz veya süresi dolmuş session")
+            
 
-        # 3. URL Kurgusu (RMM Seviye 2: Kaynak bazlı URI)
+       
         clean_path = path.strip("/")
         target_url = f"http://{service_name}:{port}/"
         if clean_path:
             target_url += f"{clean_path}/"
 
-        # 4. Proxy üzerinden isteği ilet
+       
         return await self.proxy.forward(target_url, request)
 
-# FastAPI sunucusunun çalıştırabilmesi için sınıfın örneklendirilmesi
+
 dispatcher = DispatcherApp()
 app = dispatcher.app
