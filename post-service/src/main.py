@@ -14,17 +14,14 @@ class PostModel(BaseModel):
     author_id: str
 
 class PostServiceApp:
-    """
-    Gönderi (Post) işlemlerini yürüten bağımsız mikroservis sınıfı.
-    OOP prensiplerine ve RMM Seviye 2 standartlarına uygun tasarlanmıştır.
-    """
+  
     def __init__(self):
         self.app = FastAPI(title="YazLab Post Service")
         self._setup_db()
         self._setup_routes()
 
     def _setup_db(self):
-        
+        # docker-compose.yml içindeki bağımsız mongo-post servisine bağlanır
         self.client = AsyncIOMotorClient("mongodb://mongo-post:27017")
         self.db = self.client.post_database
         self.collection = self.db.posts
