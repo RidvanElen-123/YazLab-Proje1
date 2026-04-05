@@ -29,7 +29,7 @@ Sistem; bir Dispatcher, bir Auth servisi ve iki işlevsel mikroservis (User ve P
 graph TD
     Client((Client)) -->|HTTP Requests| Dispatcher[Dispatcher / API Gateway]
     
-    subgraph İç Ağ (Network Isolation)
+    subgraph internal_network [İç Ağ - Network Isolation]
         Dispatcher -->|Yetki Kontrolü| Auth[Auth Service]
         Auth -->|Token Cache| Redis1[(Redis - Auth)]
         
