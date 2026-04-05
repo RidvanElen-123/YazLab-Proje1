@@ -40,6 +40,14 @@ graph TD
         Post -->|Bağımsız Veri| Mongo2[(MongoDB - Post)]
     end
 ```
+**Ağ İzolasyonu (Network Isolation) Kanıtları:**
+Sisteme dışarıdan doğrudan erişim kapalıdır. İstekler yalnızca Gateway üzerinden kabul edilmektedir. Yetkisiz girişler Gateway seviyesinde 401 koduyla engellenmektedir.
+
+![Ağ İzolasyonu Başarısız İstek](docs/images/network-isolation.png)
+*Görsel: Post servisine doğrudan erişim denemesinin reddedilmesi.*
+
+![Gateway Yetkisiz Erişim](docs/images/gateway-unauthorized.png)
+*Görsel: Dispatcher üzerinden geçersiz token ile yapılan isteğin engellenmesi.*
 
 ### 5. İş Akışı ve Sequence (Sıralama) Diyagramı
 Yetkilendirme mantığı mikroservislere gömülmemiş, doğrudan Dispatcher üzerinden kontrol edilerek servislerin güvenliği sağlanmıştır.
@@ -69,6 +77,11 @@ Proje tamamen Dockerize edilmiştir. Tüm sistemi ayağa kaldırmak için termin
 ```bash
 docker-compose up -d --build
 ```
+**Sistem Orkestrasyonu (Docker PS):**
+Aşağıdaki görselde tüm mikroservislerin ve veritabanlarının tek bir ağ üzerinde sorunsuz çalıştığı görülmektedir.
+
+![Docker Konteynerleri](docs/images/docker-ps.png)
+
 
 ### 7. Performans ve Yük Testleri (Locust)
 Sistemin yoğun trafik altındaki dayanıklılığı profesyonel bir yük testi aracı olan **Locust** ile ölçülmüştür. 
@@ -76,6 +89,14 @@ Sistemin yoğun trafik altındaki dayanıklılığı profesyonel bir yük testi 
 * **Test Senaryosu:** 50, 100, 200 ve 500 eşzamanlı istek (Concurrent Users).
 * **Ölçülen Değerler:** Dispatcher üzerinden Health Check, User Oluşturma ve Auth işlemleri simüle edilmiştir.
 * **Sonuçlar:** Sistem 500 eşzamanlı istekte bile %0 hata oranıyla (0 Fails) çalışmış, ortalama yanıt süresi 10ms altında kalarak yüksek bir performans sergilemiştir. Yetkisiz istekler başarıyla HTTP 4xx kodlarıyla reddedilmiştir. *(Ekran görüntüleri `docs/tests` klasöründe yer almaktadır).*
+
+**Yük Testi Sonuç Grafikleri ve Tabloları:**
+
+![Locust İstatistikleri](docs/images/locust-stats.jpg)
+*Görsel: 500 kullanıcı ile yapılan testin istatistiksel sonuçları (0 Hata).*
+
+![Locust Grafikleri](docs/images/locust-stats2.jpg)
+*Görsel: Yanıt sürelerinin (Response Times) stabil kaldığını gösteren performans grafikleri.*
 
 ### 8. Sonuç ve Tartışma
 **Başarılar:** TDD disipliniyle hatasız bir Dispatcher geliştirilmiş, Docker ile tam izolasyon sağlanmış ve RMM Seviye 2 standartları yakalanmıştır. 
