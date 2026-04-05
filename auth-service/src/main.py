@@ -24,7 +24,7 @@ class AuthApp:
         self.app.add_api_route("/auth/validate", self.validate_token, methods=["GET"])
 
     async def login(self, request: LoginRequest):
-        """Basit bir token üretimi ve Redis üzerinde oturum açma işlemi."""
+       
   
         if request.username == "admin" and request.password == "1234":
             token = str(uuid.uuid4())
@@ -38,7 +38,7 @@ class AuthApp:
         raise HTTPException(status_code=401, detail="Geçersiz kullanıcı adı veya şifre")
 
     async def validate_token(self, token: str):
-        """Dispatcher tarafından gönderilen token'ın geçerliliğini kontrol eder."""
+       
         username = self.redis_client.get(f"session:{token}")
         if username:
             return {"valid": True, "username": username}

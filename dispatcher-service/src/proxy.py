@@ -8,17 +8,15 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(level
 logger = logging.getLogger("ServiceProxy")
 
 class ServiceProxy:
-    """
-    Mikroservisler arası iletişimi sağlayan ve trafiği yönlendiren proxy sınıfı.
-    """
+  
     def __init__(self):
         
+      
         self.client = httpx.AsyncClient(timeout=15.0, follow_redirects=True)
 
     async def forward(self, url: str, request: Request) -> JSONResponse:
-        """
-        Gelen isteği hedef URL'e yönlendirir ve sonucu döner.
-        """
+        
+       
         logger.info(f"Trafik yönlendiriliyor: {request.method} -> {url}")
         
         try:
@@ -26,6 +24,10 @@ class ServiceProxy:
             headers = dict(request.headers)
             headers.pop("host", None)
             headers.pop("content-length", None) 
+          
+            headers = dict(request.headers)
+            headers.pop("host", None)
+            headers.pop("content-length", None)
 
             resp = await self.client.request(
                 method=request.method,
@@ -37,6 +39,7 @@ class ServiceProxy:
             logger.info(f"Hedef servisten yanıt alındı: {url} - Durum Kodu: {resp.status_code}")
 
             
+          
             try:
                 content = resp.json()
             except ValueError:
@@ -47,6 +50,7 @@ class ServiceProxy:
         except httpx.ConnectError:
             logger.error(f"Bağlantı hatası: {url} adresine ulaşılamıyor.")
             
+           
             return JSONResponse(
                 status_code=503, 
                 content={"message": "Service Unavailable", "detail": "Hedef servise şu anda ulaşılamıyor."}
@@ -59,5 +63,5 @@ class ServiceProxy:
             )
 
     async def close(self):
-        """İstemci oturumunu güvenli bir şekilde kapatır."""
+       
         await self.client.aclose()

@@ -1,6 +1,7 @@
 
 services:
  
+
   dispatcher-service:
     build: ./dispatcher-service
     container_name: dispatcher
@@ -12,6 +13,7 @@ services:
       - yazlab_network
 
   
+ 
   auth-service:
     build: ./auth-service
     container_name: auth-service
@@ -23,6 +25,7 @@ services:
       - yazlab_network
 
   
+ 
   user-service:
     build: ./user-service
     container_name: user-service
