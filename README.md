@@ -92,10 +92,10 @@ Sistemin yoğun trafik altındaki dayanıklılığı profesyonel bir yük testi 
 
 **Yük Testi Sonuç Grafikleri ve Tabloları:**
 
-![Locust İstatistikleri](docs/images/locust-stats.jpg)
+![Locust İstatistikleri](docs/images/locust-stats.png)
 *Görsel: 500 kullanıcı ile yapılan testin istatistiksel sonuçları (0 Hata).*
 
-![Locust Grafikleri](docs/images/locust-stats2.jpg)
+![Locust Grafikleri](docs/images/locust-stats2.png)
 *Görsel: Yanıt sürelerinin (Response Times) stabil kaldığını gösteren performans grafikleri.*
 
 ### 8. Sonuç ve Tartışma
