@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 
-# Tüm trafik loglanmalıdır kuralı
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("PostService")
 
@@ -14,10 +14,7 @@ class PostModel(BaseModel):
     author_id: str
 
 class PostServiceApp:
-    """
-    Gönderi (Post) işlemlerini yürüten bağımsız mikroservis sınıfı.
-    OOP prensiplerine ve RMM Seviye 2 standartlarına uygun tasarlanmıştır.
-    """
+  
     def __init__(self):
         self.app = FastAPI(title="YazLab Post Service")
         self._setup_db()
